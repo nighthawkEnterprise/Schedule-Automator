@@ -1,38 +1,49 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const request = require('request');
-const https = require('https');
+const express = require("express");
+const bodyParser = require("body-parser");
+const request = require("request");
+const https = require("https");
 const axios = require("axios");
-const {getCenter, getServices, getGuests, getBookingId, getReservationSlots, reserveSlot} = require("./controller.js")
+const {
+  getCenter,
+  getServices,
+  getGuests,
+  getBookingId,
+  getReservationSlots,
+  reserveSlot,
+  confirmBooking
+} = require("./controller.js");
 
 const app = express();
 
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + "/signup.html")
-})
+app.get("/", function(req, res) {
+  res.sendFile(__dirname + "/signup.html");
+});
 
 app.post("/", (req, res) => {
-  const data = "username=zdemo&password=Zenoti@2010&grant_type=password&clientid=zdemo";
+  const data =
+    "username=zdemo&password=Zenoti@2010&grant_type=password&clientid=zdemo";
   const dataObj = {};
   const config = {
     headers: {
-        'Content-Length': 0,
-        'Content-Type': 'text/plain'
+      "Content-Length": 0,
+      "Content-Type": "text/plain"
     },
-   responseType: 'text'
-};
-  axios.post(`https://api.zenoti.com/Token`, data, config)
-  .then(response => {
-        console.log("tokennnn", response.data);
-        const tokenKey = response.data;
-        dataObj.tokenKey = tokenKey;
-        return dataObj;
+    responseType: "text"
+  };
+  axios
+    .post(`https://api.zenoti.com/Token`, data, config)
+    .then(response => {
+      console.log("tokennnn", response.data);
+      const tokenKey = response.data;
+      dataObj.tokenKey = tokenKey;
+      return dataObj;
     })
-    .then(async dataObj => { // get centers
+    .then(async dataObj => {
+      // get centers
       // console.log('in Next response: ', tokenKey);
       const centers = await getCenter(dataObj);
       // console.log('Centers in Reponse: ', centers);
@@ -51,24 +62,35 @@ app.post("/", (req, res) => {
       // console.log("Guests in App.JS: ", guests);
       dataObj.guests = guests.guests;
       return dataObj;
-    }).then(async dataObj => {
-      console.log('About to call getBookingId');
+    })
+    .then(async dataObj => {
+      console.log("About to call getBookingId");
       const bookingId = await getBookingId(dataObj);
       console.log("Back in App.js: ", bookingId);
       dataObj.bookingId = bookingId;
       return dataObj;
-    }).then(async dataObj => {
-      console.log('Getting Slots');
+    })
+    .then(async dataObj => {
+      console.log("Getting Slots");
       const reservationSlots = await getReservationSlots(dataObj);
       dataObj.reservationSlots = reservationSlots;
       return dataObj;
-    }).then( async dataObj => {
-        console.log('About to reserve a slot');
-        const reserveSlot = await reserveSlot(dataObj);
     })
-    .catch(err => console.log('error'));
-})
+    .then(async dataObj => {
+      console.log("About to reserve a slot");
+      const reserveSlot1 = await reserveSlot(dataObj);
+      // console.log("ReserveSLOT:" + reserveSlot1);
+      dataObj.reservationId = reserveSlot;
+      return dataObj;
+    })
+    .then(async dataObj => {
+      console.log("about to confirm a booking");
+      const invoiceId = await confirmBooking(dataObj);
+      console.log("Invoice ID: ", invoiceId);
+    })
+    .catch(err => console.log("error", err));
+});
 
 app.listen(process.env.PORT || 3000, function() {
-  console.log('Server running on 3000');
-})
+  console.log("Server running on 3000");
+});

@@ -114,6 +114,47 @@ module.exports.getReservationSlots = async (dataObj) => {
     })
   // https://api.zenoti.com/v1/bookings/0c318e4a-f90f-43fd-9c2d-6cba518e60ea/slots
 }
-module.exports.reserveSlot = (dataObj) => {
-  console.log("In Reserve Slot");
+
+module.exports.reserveSlot = async (dataObj) => {
+  const config = {
+    headers: {
+      'application_name' : "zdemo",
+      'application_version' : "11.43",
+      'Authorization' : 'bearer ' + dataObj.tokenKey.access_token
+    }
+  };
+  const bookingId = dataObj.bookingId;
+  // console.log("RESERVATION SLOTS: ", dataObj.reservationSlots[0].Time);
+  const reservationSlot = dataObj.reservationSlots[2].Time;
+  const data = {
+    "slot_time": reservationSlot
+  }
+
+  console.log("Reservation Slot: ", reservationSlot);
+  return await axios.post(`https://api.zenoti.com/v1/bookings/${bookingId}/slots/reserve`, data, config)
+    .then(response => {
+      const reservationId = response.data.reservation_id;
+      console.log('Response for Reservation Slot: ', reservationId);
+      return reservationId;
+    })
+}
+module.exports.confirmBooking = async dataObj => {
+  console.log("In Confirm Booking");
+  const config = {
+    headers: {
+      'application_name' : "zdemo",
+      'application_version' : "11.43",
+      'Authorization' : 'bearer ' + dataObj.tokenKey.access_token
+    }
+  };
+  const bookingId = dataObj.bookingId;
+  console.log("booking token", dataObj.tokenKey.access_token)
+  console.log('BookingID in confirm Booking: ', bookingId)
+  return await axios.post(`https://api.zenoti.com/v1/bookings/${bookingId}/slots/confirm`, null, config)
+    .then(response => {
+//    console.log("reservationID: ", response.data);
+      const invoiceId = response.data;
+      return invoiceId;
+    })
+    .catch(err => console.log("error getting booking", err))
 }
