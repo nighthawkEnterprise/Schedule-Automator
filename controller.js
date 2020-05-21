@@ -123,7 +123,7 @@ module.exports.getBookingId = async (dataObj) => {
   // // console.log("GuestID: ", dataObj.guests[0].id);
   // // console.log("ServiceID: ", dataObj.services[0].id);
   var today = new Date();
-  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ (today.getDate() + 4);
+  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ (today.getDate() + 5);
   console.log("DATE: ", date);
 
 
