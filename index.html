@@ -125,7 +125,8 @@
   <script>
     const username = document.getElementById("username");
     const password = document.getElementById("password");
-
+    const startBtn = document.getElementById("start");
+    const stopBtn  = document.getElementById("stop");
     var intervalID;
 
     function start() {
@@ -138,13 +139,14 @@
           username: username.value,
           password: password.value,
         }),
-      }).then((res) => {
-        console.log('res.json', res);
-        res.json();
-      });
+      }).then((res) => res.json());
     }
 
-    document.getElementById("start").addEventListener("click", (event) => {
+    startBtn.addEventListener("click", (event) => {
+      startBtn.disabled = true;
+      startBtn.innerHTML = "In progress";
+      stopBtn.innerHTML = "Stop Process";
+      stopBtn.disabled = false;
       event.preventDefault();
       start();
       intervalID = setInterval(() => {
@@ -154,7 +156,11 @@
       console.log("intervalID start", intervalID);
     });
 
-    document.getElementById("stop").addEventListener("click", () => {
+  stopBtn.addEventListener("click", () => {
+      startBtn.disabled = false;
+      startBtn.innerHTML = "Start Process";
+      stopBtn.innerHTML = "Process Stopped";
+      stopBtn.disabled = true;
       event.preventDefault();
       console.log("stop Interval", intervalID);
       clearInterval(intervalID);
