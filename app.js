@@ -31,7 +31,9 @@ app.post("/", (req, res) => {
   console.log("Going to call");
   const data =
     "username=zdemo&password=Zenoti@2010&grant_type=password&clientid=zdemo";
-  const dataObj = {};
+  const dataObj = {
+    givenCenterId: req.body.centerIndex
+  };
   const config = {
     headers: {
       "Content-Length": 0,
@@ -39,7 +41,7 @@ app.post("/", (req, res) => {
     },
     responseType: "text",
   };
-
+  console.log(dataObj.givenCenterId);
   axios
     .post(`https://api.zenoti.com/Token`, data, config)
     .then((response) => {
@@ -53,7 +55,7 @@ app.post("/", (req, res) => {
       // get centers
       // // console.log('in Next response: ', tokenKey);
       const centers = await getCenter(dataObj);
-      // // console.log('Centers in Reponse: ', centers);
+      // console.log('Centers in Response: ', centers);
       dataObj.centers = centers.centers;
       return dataObj;
     })
@@ -66,13 +68,42 @@ app.post("/", (req, res) => {
     .then(async (dataObj) => {
       // // console.log("In Guests dataOBJ: ", dataObj);
       const guests = await getGuests(dataObj);
-      // // console.log("Guests in App.JS: ", guests);
+      // console.log('guests: ', guests);
+      // for(var i = 0; i < guests.length; i++) {
+      //   console.log(guests.guest[i].personal_info.first_name)
+      // }
+      // guests.forEach(guest => console.log(guest.personal_info.first_name))
+      // const printGuests = guests.map(name => { console.log('guest:', guests.personal_info.first_name)})
       dataObj.guests = guests.guests;
       return dataObj;
     })
     .then(async (dataObj) => {
       const therapists = await getTherapists(dataObj);
-      dataObj.therapists = therapists;
+      // console.log("therapists: ", therapists);
+      console.log('therapists[8]: ', therapists[8].personal_info.first_name);
+      console.log('therapists[9]: ', therapists[9].personal_info.first_name);
+      let therapistIndex1;
+      let therapistIndex2;
+      dataObj.therapists = [];
+      console.log('dataObj centerID: ', dataObj.givenCenterId);
+      if(dataObj.givenCenterId == 1) {
+          console.log('in IF for Los Angles!');
+          dataObj.therapists[0] = therapists[19];
+          dataObj.therapists[1] = therapists[20];
+      }
+      if(dataObj.givenCenterId == 8) {
+        console.log('in IF for London');
+        dataObj.therapists[0] = therapists[8];
+        dataObj.therapists[1] = therapists[9];
+      }
+      if(dataObj.givenCenterId == 4) {
+        console.log('in IF for Hydrabad');
+        dataObj.therapists[0] = therapists[8];
+        dataObj.therapists[1] = therapists[9];
+        dataObj.therapists[2] = therapists[10];
+
+      }
+      console.log('dataOBJ.therapists: ', dataObj.therapists);
       return dataObj;
     })
     .then(async (dataObj) => {

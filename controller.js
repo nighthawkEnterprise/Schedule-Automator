@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 module.exports.getCenter = async (dataObj) => {
-  // console.log('in Get Center Controller', dataObj);
+  console.log('in Get Center Controller', dataObj);
   var centers;
   const config = {
     headers: {
@@ -13,14 +13,15 @@ module.exports.getCenter = async (dataObj) => {
   return await axios.get("https://api.zenoti.com/v1/centers", config)
   .then(response =>  {
      centers = response.data;
+     console.log('centers: ', centers);
      return centers;
   })
   .catch(err => console.log("Error in getting centers: " + err));
   // return centers;
 }
 module.exports.getServices = async  (dataObj) => {
-  // console.log('In services Controller: centerID: ', dataObj.centers[1].id);
-  const center_Id = dataObj.centers[1].id;
+  // console.log('In services Controller: centerID: ', dataObj.centers[dataObj.givenCenterId].id);
+  const center_Id = dataObj.centers[dataObj.givenCenterId].id;
   console.log("Center ID "  + center_Id);
   const config = {
     headers: {
@@ -38,7 +39,7 @@ module.exports.getServices = async  (dataObj) => {
     .catch(err => console.log("Error in Getting Services: ", err))
 }
 module.exports.getGuests = async (dataObj) => {
-  const center_Id = dataObj.centers[1].id;
+  const center_Id = dataObj.centers[dataObj.givenCenterId].id;
   const config = {
     headers: {
       'application_name' : "zdemo",
@@ -57,7 +58,8 @@ module.exports.getGuests = async (dataObj) => {
     })
 }
 module.exports.getTherapists = async (dataObj) => {
-  const center_Id = dataObj.centers[1].id;
+  const center_Id = dataObj.centers[dataObj.givenCenterId].id;
+
   const config = {
     headers: {
       'application_name' : "zdemo",
@@ -68,14 +70,14 @@ module.exports.getTherapists = async (dataObj) => {
   return await axios.get(`https://api.zenoti.com/v1/centers/${center_Id}/therapists`, config)
     .then(response => {
         const therapists = response.data.therapists;
-        // console.log("Guests in get Guests: ", guests);
+        // console.log("Therapists in get Therapists: ", therapists);
         return therapists;
     })
 
 }
 
 module.exports.getMemberships = async (dataObj) => {
-  const center_Id = dataObj.centers[1].id;
+  const center_Id = dataObj.centers[dataObj.givenCenterId].id;
   const config = {
     headers: {
       'application_name' : "zdemo",
@@ -95,35 +97,49 @@ module.exports.getBookingId = async (dataObj) => {
   // // console.log('bookingID Called: ');
   // // console.log("DATAOBJ:::::::: ", dataObj);
  var index = Math.floor(Math.random() * 10);
+ if(index % 2 === 0 ) {
+   var therapistIndex = 1;
+ } else {
+   therapistIndex = 0;
+ }
+ console.log("Therapist Index: ", therapistIndex);
  console.log("GUESTIDINDEX: ", index);
-  const center_Id = dataObj.centers[1].id;
+ // console.log("ALL THERAPISTS: ", dataObj.therapists);
+ console.log("THERAPISTS: ", dataObj.therapists[0]);
+ console.log("THERAPISTS: ", dataObj.therapists[1]);
+
+  const center_Id = dataObj.centers[dataObj.givenCenterId].id;
   const guest_Id = dataObj.guests[index].id;
   const service_Id = dataObj.services[index].id;
+  const therapist_Id = dataObj.therapists[therapistIndex].id;
+  dataObj.chosenTherapistID = therapist_Id;
+  dataObj.chosenTherapistName = dataObj.therapists[therapistIndex].name;
   console.log('Index: ', index, '  GUESTS: ', dataObj.guests[index].personal_info.first_name + " " + dataObj.guests[index].personal_info.last_name);
   console.log('Index: ', index, ' Services: ', dataObj.services[index].name);
+  console.log('Index: ', therapistIndex ,  ' Therapist: ', dataObj.therapists[therapistIndex].personal_info.name);
   // console.log("SERVICES: ", dataObj.services);
-  // console.log('GUESTS: ', dataObj.guests[0].personal_info.first_name + " " + dataObj.guests[0].personal_info.last_name);
-  // console.log('GUESTS: ', dataObj.guests[1].personal_info.first_name + " " + dataObj.guests[1].personal_info.last_name);
-  // console.log('GUESTS: ', dataObj.guests[2].personal_info.first_name + " " + dataObj.guests[2].personal_info.last_name);
-  // console.log('GUESTS: ', dataObj.guests[3].personal_info.first_name + " " + dataObj.guests[3].personal_info.last_name);
-  // console.log('GUESTS: ', dataObj.guests[4].personal_info.first_name + " " + dataObj.guests[4].personal_info.last_name);
-  // console.log('GUESTS: ', dataObj.guests[5].personal_info.first_name + " " + dataObj.guests[5].personal_info.last_name);
-  // console.log('GUESTS: ', dataObj.guests[6].personal_info.first_name + " " + dataObj.guests[6].personal_info.last_name);
-  // console.log('GUESTS: ', dataObj.guests[7].personal_info.first_name + " " + dataObj.guests[7].personal_info.last_name);
-  // console.log('GUESTS: ', dataObj.guests[8].personal_info.first_name + " " + dataObj.guests[8].personal_info.last_name);
-  // console.log('GUESTS: ', dataObj.guests[9].personal_info.first_name + " " + dataObj.guests[9].personal_info.last_name);
+  console.log('GUESTS: ', dataObj.guests[0].personal_info.first_name + " " + dataObj.guests[0].personal_info.last_name);
+  console.log('GUESTS: ', dataObj.guests[1].personal_info.first_name + " " + dataObj.guests[1].personal_info.last_name);
+  console.log('GUESTS: ', dataObj.guests[2].personal_info.first_name + " " + dataObj.guests[2].personal_info.last_name);
+  console.log('GUESTS: ', dataObj.guests[3].personal_info.first_name + " " + dataObj.guests[3].personal_info.last_name);
+  console.log('GUESTS: ', dataObj.guests[4].personal_info.first_name + " " + dataObj.guests[4].personal_info.last_name);
+  console.log('GUESTS: ', dataObj.guests[5].personal_info.first_name + " " + dataObj.guests[5].personal_info.last_name);
+  console.log('GUESTS: ', dataObj.guests[6].personal_info.first_name + " " + dataObj.guests[6].personal_info.last_name);
+  console.log('GUESTS: ', dataObj.guests[7].personal_info.first_name + " " + dataObj.guests[7].personal_info.last_name);
+  console.log('GUESTS: ', dataObj.guests[8].personal_info.first_name + " " + dataObj.guests[8].personal_info.last_name);
+  console.log('GUESTS: ', dataObj.guests[9].personal_info.first_name + " " + dataObj.guests[9].personal_info.last_name);
   dataObj.centerId = center_Id;
   dataObj.guestId = guest_Id;
   dataObj.service_Id = service_Id;
   // console.log("IN BOOKING ID: ", dataObj.guestId);
   // console.log("Center_ID: ", dataObj.centerId);
-  // // console.log("center_ID: ", center_id, ":", dataObj.centers[1].name);
+  // // console.log("center_ID: ", center_id, ":", dataObj.centers[dataObj.givenCenterId].name);
   // // console.log("Guest_ID: ", guest_id, ":", dataObj.guests[0].id);
   // // console.log()
   // // console.log("GuestID: ", dataObj.guests[0].id);
   // // console.log("ServiceID: ", dataObj.services[0].id);
   var today = new Date();
-  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ (today.getDate() + 1);
+  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ (today.getDate());
   console.log("DATE: ", date);
 
 
@@ -144,13 +160,20 @@ module.exports.getBookingId = async (dataObj) => {
         "items": [
           {
             "item": {
-              "id": service_Id
+              "id": service_Id,
+            },
+            "therapist": {
+               "Id": therapist_Id,
+               "Gender": 0
             }
           }
+
         ]
       }
     ]
   }
+  console.log("DATA: ", data);
+  console.log("BEFORE MAKING THE CALL", data.guests[0].items);
   return await axios.post("https://api.zenoti.com/v1/bookings", data, config)
   .then(response => {
     const bookingId = response.data.id;
@@ -158,7 +181,7 @@ module.exports.getBookingId = async (dataObj) => {
   })
 }
 module.exports.getReservationSlots = async (dataObj) => {
-  // // console.log("In get reservation ID controller");
+  console.log("In get reservation ID controller");
   const config = {
     headers: {
       'application_name' : "zdemo",
@@ -167,7 +190,7 @@ module.exports.getReservationSlots = async (dataObj) => {
     }
   };
   const bookingId= dataObj.bookingId;
- // console.log("Booking ID: ", dataObj.bookingId);
+ console.log("Booking ID: ", dataObj.bookingId);
   return await axios.get(`https://api.zenoti.com/v1/bookings/${bookingId}/slots?check_future_day_availability=true`, config)
     .then(response => {
       // console.log("reservationID: ", response.data);
@@ -195,8 +218,10 @@ module.exports.reserveSlot = async (dataObj) => {
   }
 
   // // console.log("Reservation Slot: ", reservationSlot);
+
   return await axios.post(`https://api.zenoti.com/v1/bookings/${bookingId}/slots/reserve`, data, config)
     .then(response => {
+      // console.log("RESPONSE: ", response);
       const reservationId = response.data.reservation_id;
       // // // console.log('Response for Reservation Slot: ', reservationId);
       return reservationId;
@@ -243,7 +268,7 @@ module.exports.retrieveCards = async dataObj => {
 
 }
 module.exports.getProducts = async (dataObj) => {
-  const center_Id = dataObj.centers[1].id;
+  const center_Id = dataObj.centers[dataObj.givenCenterId].id;
   const config = {
     headers: {
       'application_name' : "zdemo",
@@ -267,13 +292,14 @@ module.exports.addProducts = async dataObj => {
     }
   };
   var index = Math.floor(Math.random() * 10);
+
   // console.log("DataObj.products.id: ", dataObj.products[index]);
   var data = {
     products: [
       {
         id: dataObj.products[index].id,
         quantity: 3,
-        sale_by_id: dataObj.therapists[index].id,
+        sale_by_id: dataObj.chosenTherapistID,
       }
     ]
   }
@@ -281,8 +307,8 @@ module.exports.addProducts = async dataObj => {
   // console.log("Products: ", dataObj.products);
   console.log("Product ID of Sold: ", dataObj.products[index].id);
   console.log("Product Name of Sold: ", dataObj.products[index].name);
-  console.log("Therapist id: ", dataObj.therapists[index].id);
-  console.log("Therapist id: ", dataObj.therapists[index].personal_info.first_name);
+  console.log("Therapist id: ", dataObj.chosenTherapistID);
+  console.log("Therapist id: ", dataObj.chosenTherapistName);
   console.log("INVOICEID: ", invoiceId);
 
   return await axios.put(`https://api.zenoti.com/v1/invoices/${invoiceId}/products`, data, config)

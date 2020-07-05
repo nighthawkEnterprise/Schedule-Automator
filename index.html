@@ -77,7 +77,7 @@
     <link href="css/style.css" rel="stylesheet" />
   </head>
   <body class="text-center">
-    <form class="form-signin">
+    <form class="form-signin" style="margin-top:-65px">
       <img
         class="mb-4"
         src="images/Zenoti_PNG.jfif"
@@ -92,26 +92,46 @@
         id="username"
         name="username"
         class="form-control middle"
-        placeholder="username"
-        required
+        placeholder="Zdemo username autofilled"
+        disabled
       />
       <input
         type="password"
         id="password"
         name="password"
         class="form-control bottom"
-        placeholder="password"
-        required
+        placeholder="Zdemo password autofilled"
+        disabled
       />
+      <button style="margin-top: 10px"
+        class="btn btn-lg btn-primary btn-block"
+        name="start"
+        id="createAll"
+      >
+        Create Appt. For All Centers
+      </button>
       <button
         class="btn btn-lg btn-primary btn-block"
         name="start"
-        id="start"
-        type="submit"
+        id="startLos"
       >
-        Start Process
+        Create Appt. For Los Angles
       </button>
       <button
+        class="btn btn-lg btn-primary btn-block"
+        name="start"
+        id="startLond"
+      >
+        Create Appt. For London
+      </button>
+      <button
+        class="btn btn-lg btn-primary btn-block"
+        name="start"
+        id="startHydra"
+      >
+        Create Appt. For Hydrabad
+      </button>
+      <!-- <button
         class="btn btn-lg btn-danger btn-block"
         name="stop"
         id="stop"
@@ -119,17 +139,20 @@
         type="submit"
       >
         Stop Process
-      </button>
+      </button> -->
     </form>
   </body>
   <script>
     const username = document.getElementById("username");
     const password = document.getElementById("password");
-    const startBtn = document.getElementById("start");
-    const stopBtn  = document.getElementById("stop");
+    const startLosBtn = document.getElementById("startLos");
+    const startLonBtn = document.getElementById("startLond");
+    const startHydrBtn = document.getElementById("startHydra");
+    const createAllBtn = document.getElementById("createAll");
+    // const stopBtn  = document.getElementById("stop");
     var intervalID;
 
-    function start() {
+    function start(centerIndex) {
       fetch("/", {
         method: "POST",
         headers: {
@@ -138,32 +161,52 @@
         body: JSON.stringify({
           username: username.value,
           password: password.value,
+          centerIndex: centerIndex,
         }),
       }).then((res) => res.json());
     }
-
-    startBtn.addEventListener("click", (event) => {
-      startBtn.disabled = true;
-      startBtn.innerHTML = "In progress";
-      stopBtn.innerHTML = "Stop Process";
-      stopBtn.disabled = false;
+    createAllBtn.addEventListener("click", (event) => {
+      console.log("In Create All Event");
       event.preventDefault();
-      start();
-      intervalID = setInterval(() => {
-        start();
-      }, 15000);
+      start(1);
+      // start(4);
+      start(8);
+    });
+    startLosBtn.addEventListener("click", (event) => {
+      console.log("here");
+      event.preventDefault();
+      start(1);
+      // intervalID = setInterval(() => {
+      //   start();
+      // }, 15000);
 
-      console.log("intervalID start", intervalID);
+      // console.log("intervalID start", intervalID);
+    });
+    startLonBtn.addEventListener("click", (event) => {
+      console.log("here again");
+      event.preventDefault();
+      start(8);
+      // intervalID = setInterval(() => {
+      //   start();
+      // }, 15000);
+
+      // console.log("intervalID start", intervalID);
+    });
+    startHydrBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      start(4);
+      // intervalID = setInterval(() => {
+      //   start();
+      // }, 15000);
+
+      // console.log("intervalID start", intervalID);
     });
 
   stopBtn.addEventListener("click", () => {
-      startBtn.disabled = false;
-      startBtn.innerHTML = "Start Process";
-      stopBtn.innerHTML = "Process Stopped";
-      stopBtn.disabled = true;
       event.preventDefault();
-      console.log("stop Interval", intervalID);
       clearInterval(intervalID);
+
+      console.log("stop Interval", intervalID);
     });
   </script>
 </html>
