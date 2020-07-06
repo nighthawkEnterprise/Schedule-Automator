@@ -30,11 +30,11 @@
     <link
       rel="apple-touch-icon"
       href="/docs/4.4/assets/img/favicons/apple-touch-icon.png"
-      sizes="180x180"
+      sizes="480x480"
     />
     <link
       rel="icon"
-      href="/docs/4.4/assets/img/favicons/favicon-32x32.png"
+      href="/images/Zenoti_PNG.jfif"
       sizes="32x32"
       type="image/png"
     />
@@ -66,7 +66,6 @@
         -ms-user-select: none;
         user-select: none;
       }
-
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
@@ -77,22 +76,22 @@
     <link href="css/style.css" rel="stylesheet" />
   </head>
   <body class="text-center">
-    <form class="form-signin" style="margin-top:-65px">
+    <form class="form-signin" id="form-signin" >
       <img
         class="mb-4"
-        src="images/Zenoti_PNG.jfif"
+        src="images/Zenoti.png"
         alt=""
         width="172"
-        height="172"
+        height="172" style="margin-bottom:-50px; border-radius: 35px;"
       />
-      <h1 class="h3 mb-3 font-weight-normal">Appointment Automator</h1>
+      <h6 class="h3 mb-3 font-weight-normal">Appointment Automator</h6>
       <!-- <input type="text" name="url" class="form-control top" placeholder="URL" required autofocus> -->
       <input
         type="text"
         id="username"
         name="username"
         class="form-control middle"
-        placeholder="Zdemo username autofilled"
+        placeholder="Zdemo username autofilled" style="border-radius: 12px; margin-bottom:10px"
         disabled
       />
       <input
@@ -101,33 +100,33 @@
         name="password"
         class="form-control bottom"
         placeholder="Zdemo password autofilled"
-        disabled
+        disabled style="border-radius: 12px"
       />
       <button style="margin-top: 10px"
         class="btn btn-lg btn-primary btn-block"
         name="start"
-        id="createAll"
+        id="createAll" style="border-radius: 12px"
       >
         Create Appt. For All Centers
       </button>
       <button
         class="btn btn-lg btn-primary btn-block"
         name="start"
-        id="startLos"
+        id="startLos" style="border-radius: 12px"
       >
         Create Appt. For Los Angles
       </button>
       <button
         class="btn btn-lg btn-primary btn-block"
         name="start"
-        id="startLond"
+        id="startLond" style="border-radius: 12px"
       >
         Create Appt. For London
       </button>
       <button
         class="btn btn-lg btn-primary btn-block"
         name="start"
-        id="startHydra" disabled
+        id="startHydra" disabled style="border-radius: 12px"
       >
         Create Appt. For Hydrabad
       </button>
