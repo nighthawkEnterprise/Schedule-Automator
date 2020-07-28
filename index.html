@@ -162,7 +162,10 @@
           password: password.value,
           centerIndex: centerIndex,
         }),
-      }).then((res) => res.json());
+      }).then((res) => {
+         console.log("DONE");
+         res.json()
+       });
     }
     createAllBtn.addEventListener("click", (event) => {
       console.log("In Create All Event");
@@ -201,11 +204,11 @@
       // console.log("intervalID start", intervalID);
     });
 
-  stopBtn.addEventListener("click", () => {
-      event.preventDefault();
-      clearInterval(intervalID);
-
-      console.log("stop Interval", intervalID);
-    });
+  // stopBtn.addEventListener("click", () => {
+  //     event.preventDefault();
+  //     clearInterval(intervalID);
+  //
+  //     console.log("stop Interval", intervalID);
+  //   });
   </script>
 </html>
