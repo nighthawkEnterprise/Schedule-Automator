@@ -139,7 +139,7 @@ module.exports.getBookingId = async (dataObj) => {
   // // console.log("GuestID: ", dataObj.guests[0].id);
   // // console.log("ServiceID: ", dataObj.services[0].id);
   var today = new Date();
-  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ (today.getDate());
+  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ (today.getDate() + 1);
   console.log("DATE: ", date);
 
 
@@ -193,7 +193,7 @@ module.exports.getReservationSlots = async (dataObj) => {
  console.log("Booking ID: ", dataObj.bookingId);
   return await axios.get(`https://api.zenoti.com/v1/bookings/${bookingId}/slots?check_future_day_availability=true`, config)
     .then(response => {
-      // console.log("reservationID: ", response.data);
+      console.log("reservationID: ", response.data);
       const reservationSlots = response.data.slots;
       return reservationSlots;
     })
@@ -210,7 +210,7 @@ module.exports.reserveSlot = async (dataObj) => {
     }
   };
   const bookingId = dataObj.bookingId;
-  // console.log("dataOBJ: ", dataObj.reservationSlots);
+  console.log("dataOBJ: ", dataObj.reservationSlots);
   console.log("RESERVATION SLOTS: ", dataObj.reservationSlots[0].Time);
   const reservationSlot = dataObj.reservationSlots[0].Time;
   const data = {
