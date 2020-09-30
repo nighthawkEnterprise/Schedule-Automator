@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 module.exports.getCenter = async (dataObj) => {
-  console.log('in Get Center Controller', dataObj);
+  console.log('in Get Center Controller');
   var centers;
   const config = {
     headers: {
@@ -13,7 +13,7 @@ module.exports.getCenter = async (dataObj) => {
   return await axios.get("https://api.zenoti.com/v1/centers", config)
   .then(response =>  {
      centers = response.data;
-     console.log('centers: ', centers);
+     // console.log('centers: ', centers);
      return centers;
   })
   .catch(err => console.log("Error in getting centers: " + err));
@@ -59,7 +59,7 @@ module.exports.getGuests = async (dataObj) => {
 }
 module.exports.getTherapists = async (dataObj) => {
   const center_Id = dataObj.centers[dataObj.givenCenterId].id;
-
+  console.log('getTherapistS: ', center_Id);
   const config = {
     headers: {
       'application_name' : "zdemo",
@@ -139,7 +139,8 @@ module.exports.getBookingId = async (dataObj) => {
   // // console.log("GuestID: ", dataObj.guests[0].id);
   // // console.log("ServiceID: ", dataObj.services[0].id);
   var today = new Date();
-  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ (today.getDate() + 1);
+  const date = new Date(today);
+  date.setDate(date.getDate() + 1);
   console.log("DATE: ", date);
 
 

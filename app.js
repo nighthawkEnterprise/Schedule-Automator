@@ -29,6 +29,7 @@ app.get("/", function (req, res) {
 
 app.post("/", (req, res) => {
   console.log("Going to call");
+  console.log('req.body.centerIndex: ', req.body.centerIndex);
   const data =
     "username=ias&password=Import@123&grant_type=password&clientid=zdemo";
   const dataObj = {
@@ -79,9 +80,9 @@ app.post("/", (req, res) => {
     })
     .then(async (dataObj) => {
       const therapists = await getTherapists(dataObj);
-      console.log("therapists: ", therapists);
-      console.log('therapists[8]: ', therapists[8].personal_info.first_name);
-      console.log('therapists[9]: ', therapists[9].personal_info.first_name);
+      // console.log("therapists: ", therapists);
+      // console.log('therapists[9]: ', therapists[9].personal_info.first_name);
+      // console.log('therapists[8]: ', therapists[8].personal_info.first_name);
       let therapistIndex1;
       let therapistIndex2;
       dataObj.therapists = [];
@@ -103,7 +104,14 @@ app.post("/", (req, res) => {
         dataObj.therapists[2] = therapists[10];
 
       }
-      console.log('dataOBJ.therapists: ', dataObj.therapists);
+      if(dataObj.givenCenterId == 2) {
+        console.log('in IF for New York');
+        dataObj.therapists[0] = therapists[6];
+        dataObj.therapists[1] = therapists[7];
+        dataObj.therapists[2] = therapists[8];
+
+      }
+      // console.log('dataOBJ.therapists: ', dataObj.therapists);
       return dataObj;
     })
     .then(async (dataObj) => {
@@ -163,11 +171,11 @@ app.post("/", (req, res) => {
       const invoice_transaction_id = await addPayment(dataObj);
       console.log("invoice_transaction_id: ", invoice_transaction_id);
       console.log("DONE!");
-      res.json({message: "hello"});
+      res.json({dataObj});
       // res.sendFile(__dirname + "/started.html");
     })
     .catch((err) => res.send("Error"));
-    
+
 });
 
 app.listen(process.env.PORT || 3000, function () {
