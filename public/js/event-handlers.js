@@ -32,6 +32,7 @@ createAllBtn.addEventListener("click", (event) => {
   start(1);
   // start(4);
   start(8);
+  start(2);
 });
 startLosBtn.addEventListener("click", (event) => {
   console.log("here");
