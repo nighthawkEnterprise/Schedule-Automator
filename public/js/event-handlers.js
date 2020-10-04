@@ -41,9 +41,9 @@ function start(centerIndex) {
   }).then((res) => {
       loaderDiv.remove();
       console.log(res.data);
-      console.log("Status: ", res.data.status);
+      console.log("Status: ", res.data.returnObj);
 
-      if(res.data.status === 200) {
+      if(res.data.status !== 400) {
           let info = res.data.returnObj;
           let firstName = info.guestFirst;
           let lastName = info.guestLast;

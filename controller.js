@@ -146,7 +146,7 @@ module.exports.getBookingId = async (dataObj) => {
   // // console.log("ServiceID: ", dataObj.services[0].id);
   var today = new Date();
   const date = new Date(today);
-  date.setDate(date.getDate() + 1);
+  date.setDate(date.getDate() + 2);
   console.log("DATE: ", date);
 
 
