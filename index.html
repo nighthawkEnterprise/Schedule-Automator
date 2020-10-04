@@ -8,7 +8,7 @@
     <meta name="generator" content="Jekyll v3.8.6" />
     <title>Appointment Automator</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/sign-in/" />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- Bootstrap core CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <!-- Favicons -->
@@ -17,28 +17,75 @@
     <meta name="theme-color" content="#563d7c" />
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   </head>
   <body class="text-center">
-    <form class="form-signin" id="form-signin" >
-      <img class="mb-4" src="images/Zenoti.png" alt="" width="172" height="172" style="margin-bottom:-50px; border-radius: 35px;"/>
-      <h6 class="h3 mb-3 font-weight-normal">Appointment Automator</h6>
-      <!-- <input type="text" name="url" class="form-control top" placeholder="URL" required autofocus> -->
-      <input type="text" id="username" name="username" class="form-control middle" placeholder="Zdemo username autofilled" style="border-radius: 12px; margin-bottom:10px" disabled/>
-      <input type="password" id="password" name="password" class="form-control bottom" placeholder="Zdemo password autofilled" disabled style="border-radius: 12px"/>
-      <button style="margin-top: 10px" class="btn btn-lg btn-primary btn-block" name="start" id="createAll" style="border-radius: 12px">
-        Create Appt. For All Centers
-      </button>
-      <button class="btn btn-lg btn-primary btn-block" name="start" id="startLos" style="border-radius: 12px">
-        Create Appt. For Los Angles
-      </button>
-      <button class="btn btn-lg btn-primary btn-block" name="start" id="startLond" style="border-radius: 12px">
-        Create Appt. For London
-      </button>
-      <button class="btn btn-lg btn-primary btn-block" name="start" id="startNy"  style="border-radius: 12px"> Create Appt. For New York  </button>
-      <button class="btn btn-lg btn-primary btn-block" name="start" id="startHydra" disabled style="border-radius: 12px"> Create Appt. For Hydrabad  </button>
+    <div class="parent-container">
+      <div class="center-create-container">
+          <form class="form-signin" id="form-signin" >
+            <img class="mb-4" src="images/Appointment.jpg" alt="" width="172" height="172" style="margin-bottom:-50px; border-radius: 35px;"/>
+            <h6 class="h3 mb-3 font-weight-normal">Appointment Automator</h6>
+            <!-- <input type="text" name="url" class="form-control top" placeholder="URL" required autofocus> -->
+            <input type="text" id="username" name="username" class="form-control middle" placeholder="Zdemo username autofilled" style="border-radius: 12px; margin-bottom:10px" disabled/>
+            <input type="password" id="password" name="password" class="form-control bottom" placeholder="Zdemo password autofilled" disabled style="border-radius: 12px"/>
+            <button style="margin-top: 10px" class="btn btn-lg btn-primary btn-block" name="start" id="createAll" style="border-radius: 12px">
+              Create Appt. For All Centers
+            </button>
+            <button class="btn btn-lg btn-primary btn-block" name="start" id="startLos" style="border-radius: 12px">
+              Create Appt. For Los Angles
+            </button>
+            <button class="btn btn-lg btn-primary btn-block" name="start" id="startLond" style="border-radius: 12px">
+              Create Appt. For London
+            </button>
+            <button class="btn btn-lg btn-primary btn-block" name="start" id="startNy"  style="border-radius: 12px">
+              Create Appt. For New York
+            </button>
+            <button class="btn btn-lg btn-primary btn-block" name="start" id="startHydra" disabled style="border-radius: 12px">
+              Create Appt. For Hydrabad
+            </button>
+          </form>
+      </div>
 
-      <!-- <button class="btn btn-lg btn-danger btn-block" name="stop" id="stop" formaction="/" type="submit">Stop Process </button> -->
-    </form>
+      <div class="center-reporting-container">
+        <ul class="list-group" id="notification-appointment">
+            <li class="list-group-item active" id="appointment-header">Appointment Notifications  <button id="clear-appointment-notifications"> <i class="material-icons">refresh</i></button>
+        </ul>
+      </div>
+
+      <div class="center-reporting-container">
+        <ul class="list-group" id="notification-employee">
+            <li class="list-group-item active" id="employee-header">Employee Notifications  <button id="clear-employee-notifications"> <i class="material-icons">refresh</i></button></li>
+            <li class="list-group-item"> Coming Soon...!</li>
+        </ul>
+      </div>
+
+      <div class="employee-checkIn-container">
+          <form class="form-signin" id="form-signin" >
+            <img class="mb-4" src="images/Employee.png" alt="" width="172" height="172" style="margin-bottom:-50px; border-radius: 35px;"/>
+            <h6 class="h3 mb-3 font-weight-normal">Employee Check-In Automator</h6>
+            <!-- <input type="text" name="url" class="form-control top" placeholder="URL" required autofocus> -->
+            <input type="text" id="username" name="username" class="form-control middle" placeholder="Zdemo username autofilled" style="border-radius: 12px; margin-bottom:10px" disabled/>
+            <input type="password" id="password" name="password" class="form-control bottom" placeholder="Zdemo password autofilled" disabled style="border-radius: 12px"/>
+            <button disabled style="margin-top: 10px" class="btn btn-lg btn-primary btn-block" name="start" id="createAll" style="border-radius: 12px">
+              C.I.E. for All Centers
+            </button>
+            <button disabled class="btn btn-lg btn-primary btn-block" name="start" id="startLos" style="border-radius: 12px">
+              C.I.E. For Los Angles
+            </button>
+            <button disabled class="btn btn-lg btn-primary btn-block" name="start" id="startLond" style="border-radius: 12px">
+              C.I.E. For London
+            </button>
+            <button disabled class="btn btn-lg btn-primary btn-block" name="start" id="startNy"  style="border-radius: 12px">
+              C.I.E. For New York
+            </button>
+            <button class="btn btn-lg btn-primary btn-block" name="start" id="startHydra" disabled style="border-radius: 12px">
+              C.I.E. For Hydrabad
+            </button>
+          </form>
+      </div>
+
+    </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="js/event-handlers.js"></script>

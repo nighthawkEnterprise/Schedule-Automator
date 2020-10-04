@@ -59,7 +59,7 @@ module.exports.getGuests = async (dataObj) => {
 }
 module.exports.getTherapists = async (dataObj) => {
   const center_Id = dataObj.centers[dataObj.givenCenterId].id;
-  console.log('getTherapistS: ', center_Id);
+  console.log('getTherapist: ', center_Id);
   const config = {
     headers: {
       'application_name' : "zdemo",
@@ -97,6 +97,7 @@ module.exports.getBookingId = async (dataObj) => {
   // // console.log('bookingID Called: ');
   // // console.log("DATAOBJ:::::::: ", dataObj);
  var index = Math.floor(Math.random() * 10);
+ const returnObj = {};
  if(index % 2 === 0 ) {
    var therapistIndex = 1;
  } else {
@@ -117,6 +118,11 @@ module.exports.getBookingId = async (dataObj) => {
   console.log('Index: ', index, '  GUESTS: ', dataObj.guests[index].personal_info.first_name + " " + dataObj.guests[index].personal_info.last_name);
   console.log('Index: ', index, ' Services: ', dataObj.services[index].name);
   console.log('Index: ', therapistIndex ,  ' Therapist: ', dataObj.therapists[therapistIndex].personal_info.name);
+  returnObj.guestFirst =  dataObj.guests[index].personal_info.first_name;
+  returnObj.guestLast = dataObj.guests[index].personal_info.last_name;
+  returnObj.therapistName = dataObj.therapists[therapistIndex].personal_info.name;
+  returnObj.serviceName = dataObj.services[index].name;
+
   // console.log("SERVICES: ", dataObj.services);
   // console.log('GUESTS: ', dataObj.guests[0].personal_info.first_name + " " + dataObj.guests[0].personal_info.last_name);
   // console.log('GUESTS: ', dataObj.guests[1].personal_info.first_name + " " + dataObj.guests[1].personal_info.last_name);
@@ -173,17 +179,16 @@ module.exports.getBookingId = async (dataObj) => {
       }
     ]
   }
-  console.log("DATA: ", data);
-  console.log("BEFORE MAKING THE CALL", data.guests[0].items);
   return await axios.post("https://api.zenoti.com/v1/bookings", data, config)
   .then(response => {
     const bookingId = response.data.id;
-    console.log("BOOKINGID: ", bookingId);
-    return bookingId;
+    returnObj.bookingId = bookingId;
+    // console.log("BOOKINGID: ", bookingId);
+    return returnObj;
   })
 }
 module.exports.getReservationSlots = async (dataObj) => {
-  // console.log("In get reservation ID controller");
+  console.log("In get reservation ID controller");
   const config = {
     headers: {
       'application_name' : "zdemo",
@@ -203,7 +208,7 @@ module.exports.getReservationSlots = async (dataObj) => {
 }
 
 module.exports.reserveSlot = async (dataObj) => {
-  // // console.log("In Reserve Slot Controller");
+  console.log("In Reserve Slot Controller");
   const config = {
     headers: {
       'application_name' : "zdemo",
@@ -214,6 +219,9 @@ module.exports.reserveSlot = async (dataObj) => {
   const bookingId = dataObj.bookingId;
   // console.log("dataOBJ: ", dataObj.reservationSlots);
   console.log("RESERVATION SLOTS: ", dataObj.reservationSlots[0].Time);
+  let returnObj = {};
+   returnObj.reservationTime = dataObj.reservationSlots[0].Time;
+
   const reservationSlot = dataObj.reservationSlots[0].Time;
   const data = {
     "slot_time": reservationSlot
@@ -223,14 +231,16 @@ module.exports.reserveSlot = async (dataObj) => {
 
   return await axios.post(`https://api.zenoti.com/v1/bookings/${bookingId}/slots/reserve`, data, config)
     .then(response => {
-      // console.log("RESPONSE: ", response);
+      console.log("Return Obj: ", returnObj);
       const reservationId = response.data.reservation_id;
-      // // // console.log('Response for Reservation Slot: ', reservationId);
-      return reservationId;
+      console.log('Response for Reservation Slot: ', reservationId);
+      returnObj.reservationId = reservationId;
+      console.log("Return Obj: ", returnObj);
+      return returnObj;
     })
 }
 module.exports.confirmBooking = async dataObj => {
-  // // // console.log("In Confirm Booking");
+  // // console.log("In Confirm Booking");
   const config = {
     headers: {
       'application_name' : "zdemo",

@@ -35,6 +35,7 @@ app.post("/", (req, res) => {
   const dataObj = {
     givenCenterId: req.body.centerIndex
   };
+  const returnObj = {}
   const config = {
     headers: {
       "Content-Length": 0,
@@ -89,16 +90,19 @@ app.post("/", (req, res) => {
       console.log('dataObj centerID: ', dataObj.givenCenterId);
       if(dataObj.givenCenterId == 1) {
           console.log('in IF for Los Angles!');
+          returnObj.chosenCenter = "Los Angles";
           dataObj.therapists[0] = therapists[11];
           dataObj.therapists[1] = therapists[12];
       }
       if(dataObj.givenCenterId == 8) {
         console.log('in IF for London');
+        returnObj.chosenCenter = "London";
         dataObj.therapists[0] = therapists[7];
         dataObj.therapists[1] = therapists[9];
       }
       if(dataObj.givenCenterId == 4) {
         console.log('in IF for Hydrabad');
+        returnObj.chosenCenter = "Hydrabad";
         dataObj.therapists[0] = therapists[8];
         dataObj.therapists[1] = therapists[9];
         dataObj.therapists[2] = therapists[10];
@@ -106,12 +110,13 @@ app.post("/", (req, res) => {
       }
       if(dataObj.givenCenterId == 2) {
         console.log('in IF for New York');
+        returnObj.chosenCenter = "New York";
         dataObj.therapists[0] = therapists[6];
         dataObj.therapists[1] = therapists[7];
         dataObj.therapists[2] = therapists[8];
 
       }
-      // console.log('dataOBJ.therapists: ', dataObj.therapists);
+      console.log('dataOBJ.therapists: ', dataObj.therapists);
       return dataObj;
     })
     .then(async (dataObj) => {
@@ -123,8 +128,14 @@ app.post("/", (req, res) => {
     .then(async (dataObj) => {
       // console.log("About to call getBookingId");
       const bookingId = await getBookingId(dataObj);
-      // // console.log("Back in App.js: ", bookingId);
-      dataObj.bookingId = bookingId;
+      console.log("Back in App.js: ", bookingId);
+      dataObj.bookingId = bookingId.bookingId;
+      returnObj.guestFirst = bookingId.guestFirst;
+      returnObj.guestLast = bookingId.guestLast;
+      returnObj.serviceName = bookingId.serviceName;
+      returnObj.therapistName= bookingId.therapistName;
+      console.log("RETURN OBJ: ", returnObj);
+      console.log("DataOBJ: ", dataObj.bookingId);
       return dataObj;
     })
     .then(async (dataObj) => {
@@ -134,14 +145,15 @@ app.post("/", (req, res) => {
       return dataObj;
     })
     .then(async (dataObj) => {
-      // // console.log("About to reserve a slot");
+      console.log("About to reserve a slot");
       const reserveSlot1 = await reserveSlot(dataObj);
-      // // // console.log("ReserveSLOT:" + reserveSlot1);
-      dataObj.reservationId = reserveSlot;
+      console.log("ReserveSLOT:" + reserveSlot1.reservationId);
+      returnObj.reservationTime = reserveSlot1.reservationTime;
+      dataObj.reservationId = reserveSlot1;
       return dataObj;
     })
     .then(async (dataObj) => {
-      // // console.log("about to confirm a booking");
+      console.log("about to confirm a booking");
       const invoiceId = await confirmBooking(dataObj);
       // // console.log("Invoice ID: ", invoiceId);
       dataObj.invoiceId = invoiceId.invoice.invoice_id;
@@ -170,12 +182,17 @@ app.post("/", (req, res) => {
     .then(async (dataObj) => {
       const invoice_transaction_id = await addPayment(dataObj);
       console.log("invoice_transaction_id: ", invoice_transaction_id);
-      console.log("DONE!");
-      res.json({dataObj});
+      console.log("DONE!", returnObj);
+      dataObj.success = true;
+      returnObj.status = 200;
+      res.json({returnObj});
       // res.sendFile(__dirname + "/started.html");
     })
-    .catch((err) => res.send("Error"));
-
+    .catch((err) => {
+      console.log("Return Obj: ", returnObj);
+      returnObj.status = 400;
+      res.json(returnObj);
+    });
 });
 
 app.listen(process.env.PORT || 3000, function () {

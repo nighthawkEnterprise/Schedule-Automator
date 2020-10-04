@@ -1,19 +1,26 @@
 html, body {
   height: 100%;
 }
-body {
-  display: -ms-flexbox;
+.parent-container {
   display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  justify-content: space-around;
+}
+body {
   /* overflow:hidden; */
   background-color: #f5f5f5;
 }
+.form-container {
+  border: solid 1px black;
+}
+.center-reporting-container {
+  align-self: flex-start;
+  max-width: 300px;
+  min-width: 300px;
+  margin-top: 10px;
+  box-shadow: 1px 2px 10px 1px;
+
+}
 #form-signin {
-  margin-top: -40px;
-  padding: 15px;
   border: solid 2px #2dae79;
   border-radius: 25px;
   background-color: #e7f5f5;
@@ -71,4 +78,54 @@ body {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;
   }
+}
+#loader-div {
+  display: flex;
+  justify-content: center;
+  padding: 20px
+}
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-bottom: 16px solid blue;
+  width: 10px;
+  height: 10px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+#errorText {
+  color: red;
+}
+#clear-appointment-notifications {
+   margin-left: 15px;
+   background-color: white;
+   border: none;
+   height: 25px;
+}
+#clear-employee-notifications {
+   margin-left: 15px;
+   background-color: white;
+   border: none;
+   height: 25px;
+}
+#appointment-header {
+  border: solid 1px black;
+  display: flex;
+  justify-content: space-between;
+}
+#employee-header {
+  border: solid 1px black;
+  display: flex;
+  justify-content: space-between;
 }
