@@ -191,7 +191,7 @@ app.post("/", (req, res) => {
     .catch((err) => {
       console.log("Return Obj: ", returnObj);
       returnObj.status = 400;
-      res.json(returnObj);
+      res.json({returnObj});
     });
 });
 

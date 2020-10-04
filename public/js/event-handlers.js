@@ -41,9 +41,10 @@ function start(centerIndex) {
   }).then((res) => {
       loaderDiv.remove();
       console.log(res.data);
-      console.log("Status: ", res.data.returnObj);
+      console.log("Res.data.returnObj.status: ", res.data.returnObj.status);
+      
 
-      if(res.data.status !== 400) {
+      if(res.data.returnObj.status == 200) {
           let info = res.data.returnObj;
           let firstName = info.guestFirst;
           let lastName = info.guestLast;
@@ -52,7 +53,7 @@ function start(centerIndex) {
           let therapistName = info.therapistName;
           let reservationTime = info.reservationTime;
           var li = document.createElement("li");
-          li.appendChild(document.createTextNode(`${firstName} ${lastName}'s appointment for a ${serviceName} with ${therapistName} at the ${chosenCenter} on ${reservationTime}`));
+          li.appendChild(document.createTextNode(`Created ${firstName} ${lastName}'s appointment for a ${serviceName} with ${therapistName} at the ${chosenCenter} on ${reservationTime}`));
           li.setAttribute("class", "list-group-item");
           notificationScreenList.appendChild(li);
       } else {
