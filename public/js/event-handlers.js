@@ -40,10 +40,6 @@ function start(centerIndex) {
     },
   }).then((res) => {
       loaderDiv.remove();
-      console.log(res.data);
-      console.log("Res.data.returnObj.status: ", res.data.returnObj.status);
-      
-
       if(res.data.returnObj.status == 200) {
           let info = res.data.returnObj;
           let firstName = info.guestFirst;
@@ -52,21 +48,22 @@ function start(centerIndex) {
           let chosenCenter = info.chosenCenter;
           let therapistName = info.therapistName;
           let reservationTime = info.reservationTime;
+          let rating = info.rating;
           var li = document.createElement("li");
-          li.appendChild(document.createTextNode(`Created ${firstName} ${lastName}'s appointment for a ${serviceName} with ${therapistName} at the ${chosenCenter} on ${reservationTime}`));
+          li.appendChild(document.createTextNode(`Created ${firstName} ${lastName}'s appointment for a ${serviceName} with ${therapistName} at the ${chosenCenter} on ${reservationTime}. Rating left: ${rating}`));
           li.setAttribute("class", "list-group-item");
           notificationScreenList.appendChild(li);
       } else {
-        console.log("in error block", res.data);
+        console.log("in error block", res.data.returnObj.returnObj);
         let info = res.data;
-        let firstName = info.guestFirst;
-        let lastName = info.guestLast;
-        let serviceName = info.serviceName;
-        let chosenCenter = info.chosenCenter;
-        let therapistName = info.therapistName;
+        let firstName = info.returnObj.guestFirst;
+        let lastName = info.returnObj.guestLast;
+        let serviceName = info.returnObj.serviceName;
+        let chosenCenter = info.returnObj.chosenCenter;
+        let therapistName = info.returnObj.therapistName;
         loaderDiv.remove();
         var li = document.createElement("li");
-        li.appendChild(document.createTextNode(`There was an error creating ${firstName} ${lastName}'s appointment for a ${serviceName} with ${therapistName} at the ${chosenCenter}`));
+        li.appendChild(document.createTextNode(`There was an error creating ${firstName} ${lastName}'s appointment for a ${serviceName} with ${therapistName} at the ${chosenCenter}. `));
         li.setAttribute("class", "list-group-item");
         li.setAttribute("id", "errorText");
         notificationScreenList.appendChild(li);
@@ -74,19 +71,16 @@ function start(centerIndex) {
     })
 }
 createAllBtn.addEventListener("click", (event) => {
-  console.log("In Create All Event");
   event.preventDefault();
   start(1);
   start(8);
   start(2);
 });
 startLosBtn.addEventListener("click", (event) => {
-  console.log("here");
   event.preventDefault();
   start(1);
 });
 startLonBtn.addEventListener("click", (event) => {
-  console.log("here again");
   event.preventDefault();
   start(8);
 });

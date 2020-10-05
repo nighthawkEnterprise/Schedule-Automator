@@ -15,8 +15,8 @@ body {
 }
 .center-reporting-container {
   align-self: flex-start;
-  max-width: 300px;
-  min-width: 300px;
+  max-width: 500px;
+  width: 500px;
   margin-top: 10px;
   box-shadow: 1px 2px 10px 1px;
 
