@@ -114,7 +114,7 @@ module.exports.getBookingId = async (dataObj) => {
   dataObj.service_Id = service_Id;
   var today = new Date();
   const date = new Date(today);
-  date.setDate(date.getDate() + 5);
+  date.setDate(date.getDate() + 1);
 
   const config = {
     headers: {
