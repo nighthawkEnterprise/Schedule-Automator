@@ -9,5 +9,5 @@ End User:
 Technical Sales Engineer Support - Manually creates an appointment, selects a guest, service, center, adds a product, closes and takes payment, and leaves a review. On average, does this process 15 times for 3 different centers. Doing this ensures both the appointmentbook and reporting functionality are realistic and demoable. 
 
 <img src="https://user-images.githubusercontent.com/29704847/97363207-73e0bc80-185f-11eb-94ee-66865ea86d31.PNG">
-<img width="935" alt="ScheduleReporting" src="https://user-images.githubusercontent.com/29704847/97363780-4fd1ab00-1860-11eb-81b9-18cbcdd4d19c.PNG">
+<img width="935" alt="ScheduleAppointmentBook" src="https://user-images.githubusercontent.com/29704847/97363858-6d9f1000-1860-11eb-9cc5-70a7afe0f5e3.PNG">
 <img width="935" alt="ScheduleReporting" src="https://user-images.githubusercontent.com/29704847/97363780-4fd1ab00-1860-11eb-81b9-18cbcdd4d19c.PNG">
